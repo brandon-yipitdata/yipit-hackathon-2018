@@ -2,7 +2,7 @@ import pandas as pd
 import send_me_email
 import twitter_data
 
-use_case = twitter_data.get_twitter_data(keyword = 'Alt Data Use Case', count = 100)
+use_case = twitter_data.get_twitter_data(keyword = 'Alt Data Investments', count = 100)
 
 subject = "Hackathon"
 recipient = "bemmerich@yipitdata.com"

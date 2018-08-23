@@ -16,12 +16,8 @@ def get_twitter_data(keyword, count):
 
     for i in range(len(results)):
         _dict = {
-            'key_word' : keyword,
-            'date_time' : results[i].created_at,
-            'screen_name' : results[i].user.screen_name,
-            'followers_count' : results[i].user.followers_count,
-            'description' : results[i].user.description,
             'text' : results[i].text,
+            'link': 'https://twitter.com/statuses/'+str(results[i].id),
         }
 
         empty_list.append(_dict)
