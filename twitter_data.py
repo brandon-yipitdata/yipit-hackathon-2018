@@ -10,6 +10,7 @@ api = twitter.Api(consumer_key='LhW03ocGwIrKqKl1ahZsVojGV',
 
 def get_twitter_data(keyword, count):
     """This function takes a keyword and returns N tweets matching that keyword"""
+    print keyword
 
     results = api.GetSearch(
         raw_query="q={}%20&result_type=recent&since=2018-01-01&count={}".format(keyword, str(count)))
@@ -18,12 +19,14 @@ def get_twitter_data(keyword, count):
 
     for i in range(len(results)):
         _dict = {
-            'text' : results[i].text,
-            'link': 'https://twitter.com/statuses/'+str(results[i].id),
+            'Text' : results[i].text,
+            'Link': 'https://twitter.com/statuses/'+str(results[i].id),
         }
 
         empty_list.append(_dict)
 
     df = pd.DataFrame(empty_list)
-
+    df = df[df['Text'].str.startswith('RT') == False] # Remove retweets, text always begins with 'RT'
+    df['Text'] = df['Text'].str.replace("https://.*",'') # Remove tinyurls
+    df = df.drop_duplicates(['Text'],keep = 'first')
     return df

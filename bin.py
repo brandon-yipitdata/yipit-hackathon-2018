@@ -11,7 +11,7 @@ message = u''
 
 # For each keyword, hit the twitter api to get matched tweet text and links to each tweet
 for description, keyword in keyword_list:
-    results = twitter_data.get_twitter_data(keyword = keyword, count = 50).to_html(index = False)
+    results = twitter_data.get_twitter_data(keyword = keyword, count = 100).to_html(index = False)
     message += u'{}:{}\n\n'.format(description, results)
 
 subject = "Alt Data Sourcing Bot"
