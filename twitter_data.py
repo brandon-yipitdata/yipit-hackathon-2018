@@ -1,6 +1,8 @@
 import pandas as pd
 import twitter
 
+pd.set_option('max_colwidth', 280)
+
 api = twitter.Api(consumer_key='LhW03ocGwIrKqKl1ahZsVojGV',
     consumer_secret='QGB5h51326GF2IEeRy2b0jhHgyQwRhpMJAnJeFOaiglEAwnIZn',
     access_token_key='822878689222422532-wyK39KUvM6eLQkbURVgB5Gq6JVMJwz0',

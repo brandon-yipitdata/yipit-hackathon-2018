@@ -2,12 +2,15 @@ import pandas as pd
 import send_me_email
 import twitter_data
 
-use_case = twitter_data.get_twitter_data(keyword = 'Alt Data Investments', count = 100)
+alt_data = twitter_data.get_twitter_data(keyword = 'Alternative Data', count = 50).to_html(index = False)
+sat_data = twitter_data.get_twitter_data(keyword = 'Satellite Data', count = 50).to_html(index = False)
 
-subject = "Hackathon"
-recipient = "bemmerich@yipitdata.com"
-message = u'This is your data:{}'.format(use_case.to_html(index = False))
 
-send_me_email.send_html_email(message, recipient, subject)
+subject = "Alt Data Sourcing Bot"
+recipients = ["bemmerich@yipitdata.com", 'jkelly@yipitdata.com','mrondinaro@yipitdata.com']
+message = u'Alternative Data:{}\n\nSatellite Data:{}'.format(alt_data, sat_data)
 
-import ipdb; ipdb.set_trace()
+
+for recipient in recipients:
+    print recipient
+    send_me_email.send_html_email(message, recipient, subject)
