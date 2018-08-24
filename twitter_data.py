@@ -19,6 +19,7 @@ def get_twitter_data(keyword, count):
 
     for i in range(len(results)):
         _dict = {
+            'Keyword' : keyword.replace("Alternative Data","").strip(),
             'Text' : results[i].text,
             'Link': 'https://twitter.com/statuses/'+str(results[i].id),
         }

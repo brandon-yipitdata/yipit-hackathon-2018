@@ -10,12 +10,17 @@ keyword_list = [('Insights', 'Alternative Data Insights'), ('Capital','Alternati
 message = u''
 
 # For each keyword, hit the twitter api to get matched tweet text and links to each tweet
+empty_list = []
 for description, keyword in keyword_list:
-    results = twitter_data.get_twitter_data(keyword = keyword, count = 100).to_html(index = False)
-    message += u'{}:{}\n\n'.format(description, results)
+    results = twitter_data.get_twitter_data(keyword = keyword, count = 100)
+    empty_list.append(results)
+
+df = pd.concat(empty_list)
 
 subject = "Alt Data Sourcing Bot"
 recipients = ["bemmerich@yipitdata.com", 'jkelly@yipitdata.com','mrondinaro@yipitdata.com']
+message = u'Your Alt Data Directory!\n\n{}'.format(df.to_html(index = False))
+
 
 # Send emails to all particpants in the project
 for recipient in recipients:
