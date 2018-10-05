@@ -2,27 +2,28 @@
 # -*- coding: utf-8 -*-
 
 import pandas as pd
-import send_me_email
-import twitter_data
+import private
+import settings
+import web
 
-# Manually input keywords to keep abreast of
-keyword_list = [('Insights', 'Alternative Data Insights'), ('Capital','Alternative Data capital'),('Financial','Alternative Data Financial'),('Research','Alternative Data Research'),('China','Alternative Data China'),('Careers','Alternative Data Careers'),('Company','Alternative Data Company'),('Services','Alternative Data Services'),('Dataset','Alternative Dataset')]
-message = u''
+api = twitter.Api(
+    consumer_key = private.CONSUMER_KEY,
+    consumer_secret = private.CONSUMER_SECRET,
+    access_token_key = private.ACCESS_TOKEN_KEY,
+    access_token_secret = private.ACCESS_TOKEN_SECRET
+    )
 
-# For each keyword, hit the twitter api to get matched tweet text and links to each tweet
 empty_list = []
-for description, keyword in keyword_list:
-    results = twitter_data.get_twitter_data(keyword = keyword, count = 100)
+for description, keyword in settings.LIST_KEYWORDS:
+    results = web.get_twitter_data(keyword = keyword, count = 100)
     empty_list.append(results)
 
+pd.set_option('max_colwidth', 280)
 df = pd.concat(empty_list)
 
 subject = "Alt Data Sourcing Bot"
-recipients = ["bemmerich@yipitdata.com", 'jkelly@yipitdata.com','mrondinaro@yipitdata.com']
 message = u'Your Alt Data Directory!\n\n{}'.format(df.to_html(index = False))
 
-
-# Send emails to all particpants in the project
-for recipient in recipients:
+for recipient in private.EMAIL_RECIPIENTS:
     print recipient
-    send_me_email.send_html_email(message, recipient, subject)
+    web.send_html_email(message, recipient, subject)

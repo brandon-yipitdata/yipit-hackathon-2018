@@ -1,30 +1,21 @@
-import pandas as pd
-import twitter
 
-pd.set_option('max_colwidth', 280)
+for d in data:
+        row = {
+            'run_id' : run_id,
+            'uuid': str(uuid.uuid4()),
+            'date_story': datetime.datetime.fromtimestamp(int(d['inputtime'])),
+            'source' : '21 Jingji',
+            'title' : re.sub('<[^<]+?>', '', d['title']),
+            'url' : d['url'],
+        }
 
-api = twitter.Api(consumer_key='LhW03ocGwIrKqKl1ahZsVojGV',
-    consumer_secret='QGB5h51326GF2IEeRy2b0jhHgyQwRhpMJAnJeFOaiglEAwnIZn',
-    access_token_key='822878689222422532-wyK39KUvM6eLQkbURVgB5Gq6JVMJwz0',
-    access_token_secret='qCrN9eV0h8YHYys9Qu0g3dmN4iFYLVLTmAKUJ76dFoyOi')
-
-
-keyword = 'Alternative Data Insight'
-count = 100
-
-results = api.GetSearch(
-    raw_query="q={}%20&result_type=recent&since=2018-01-01&count={}".format(keyword, str(count)))
-
-empty_list = []
-
-import ipdb; ipdb.set_trace()
-
-for i in range(len(results)):
-    _dict = {
-        'Keyword' : keyword,
-        'Text' : results[i].text,
-        'Link': 'https://twitter.com/statuses/'+str(results[i].id),
-        'ID' : 'thing',
-    }
-
-    empty_list.append(_dict)
+        if row['url'] not in list_of_urls:
+            try:
+                cur.execute(settings.QUERY_INSERT, row)
+                conn.commit()
+            except Exception as e:
+                print e
+                print row['url']
+                conn.rollback()
+        else:
+            print 'We already have this: ' + row['url']
